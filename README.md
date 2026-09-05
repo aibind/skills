@@ -1,30 +1,42 @@
-# skills
+# Agent Skills
 
 [![skills.sh](https://skills.sh/b/aibind/skills)](https://skills.sh/aibind/skills)
-[![Next.js](https://img.shields.io/badge/Next.js-16.3%2B-black)](https://nextjs.org/)
 
-Agent skills for Next.js performance engineering.
+Reusable skills for coding agents, starting with Next.js performance optimization.
 
-> [!WARNING]
-> This skill is a work in progress (WIP). Update it regularly to get the latest fixes and guidance with the [skills CLI](https://www.skills.sh/docs/packs#update-a-pack):
->
-> ```sh
-> npx skills update next-chunking-optimizer
-> ```
+## Quick start
+
+Install from this collection:
 
 ```sh
 npx skills add aibind/skills
 ```
 
-## Prerequisites
+## Available skills
 
-- Next.js > 16.3.0 with App Router (`app/`) and Turbopack production builds (`next build` passes).
-- A servable production target (`next start` or custom prod server) and a browser harness for measurements. `agent-browser` is recommended, but it is optional. Any suitable browser harness can be used.
+| Skill | Purpose | Status |
+| --- | --- | --- |
+| [Next.js Chunking Optimizer](./next-chunking-optimizer/SKILL.md) | Measure and tune JavaScript loading and page navigation in Next.js | 🚧 WIP |
 
-## Available Skills
+### Next.js Chunking Optimizer
 
-- **[next-chunking-optimizer](./next-chunking-optimizer/SKILL.md)** — Empirical, non-destructive Turbopack chunk tuning for Next.js 16.3+ App Router apps. Measures cold loads, warm transitions, and reports median/range deltas before applying changes.
+Tests production builds in a browser, compares results, and applies measured improvements when requested.
 
-  ```sh
-  npx skills add aibind/skills --skill next-chunking-optimizer
-  ```
+> [!WARNING]
+> This skill is a work in progress (WIP). [Update it regularly](#updates) for the latest fixes and guidance.
+
+Requirements:
+
+- Next.js > 16.3.0 with App Router and Turbopack production builds.
+- A working production build and a command to serve it locally.
+- A browser tool for measurements. `agent-browser` is recommended; other browser tools can be used.
+
+## Updates
+
+Update all installed skills to their latest versions:
+
+```sh
+npx skills update
+```
+
+See the [skills.sh update documentation](https://www.skills.sh/docs/packs#update-a-pack) for details, including how to update a single skill.
