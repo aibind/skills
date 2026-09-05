@@ -5,6 +5,13 @@
 
 Agent skills for Next.js performance engineering.
 
+> [!WARNING]
+> This skill is a work in progress (WIP). Update it regularly to get the latest fixes and guidance with the [skills CLI](https://www.skills.sh/docs/packs#update-a-pack):
+>
+> ```sh
+> npx skills update next-chunking-optimizer
+> ```
+
 ```sh
 npx skills add aibind/skills
 ```

@@ -6,7 +6,7 @@ Use this template to record baseline conditions and candidate outcomes.
 
 | Item | Details |
 | :--- | :--- |
-| **Target App** | Selected app directory and package name (monorepo: user-picked after blocking ask; single-app: stated assumption) |
+| **Target App** | Selected app directory and package name, with the request, context, or single-app assumption supporting the choice; ask only when multiple plausible targets remain |
 | **Considered / Rejected Apps** | Every Next.js candidate found plus non-Next packages checked, each with path, Next.js version or exclusion reason (e.g. blume docs, worker), and why it was not selected |
 | **Control Config Snapshot** | Pre-existing `experimental.turbopackChunking` block in the target app (or its absence); this is the restore target |
 | **Working Directory** | Exact `cwd` or `pnpm --filter <pkg>` used for build/serve/test commands |

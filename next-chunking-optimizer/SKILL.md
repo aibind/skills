@@ -14,13 +14,13 @@ Tune Turbopack chunking through controlled, reproducible browser experiments.
 ## Instruction Precedence & Transparency
 
 - The user's instructions take precedence over guidelines provided in this skill. If explicit user instructions conflict with this skill's instructions, prioritize the user's instructions.
-- Temporary test deltas are reversible; the final persistent apply requires explicit user approval as the final step after a concrete, reviewable result is prepared.
+- Honor authorization from the current request and prior conversation. Temporary test deltas do not need pre-approval. When applying measured improvements is requested or clearly implied, complete Apply & Verify without asking again. For comparison or review-only requests, report the results and restore control. If applying the winner would expand the requested scope, prepare the measured results and exact delta before asking for approval.
 - If this skill causes you to ask for permission or confirmation, pause, leave requested work unfinished, or diverge from the user's intent, name and link to the exact SKILL.md file you read, quote the relevant instruction, and briefly explain how it applies. Distinguish explicit skill requirements from your interpretation of guidelines.
 
 ## Core Invariants
 
 - **Eligibility**: Targets App Router repositories with Next.js > 16.3.0 using Turbopack in production builds. If Webpack/Rspack is configured or the production build cannot be verified, stop the production experiment and continue with read-only analysis: report the router/bundler found, what was checked, the closest alternative (e.g. analyze the import graph, suggest the Webpack splitChunks equivalent), and ask if the user wants to proceed anyway.
-- **In-Place & Non-Destructive (Default)**: Default to executing all baselines and candidates in the current checkout with immediate restore to the control configuration after testing. Do not persist the winner without separate, explicit post-experiment authorization. If the user explicitly requests isolation (e.g. worktree/checkout), the user's instruction wins.
+- **In-Place & Non-Destructive (Default)**: Default to executing all baselines and candidates sequentially in the current checkout with immediate restore to the control configuration after each candidate. If the user explicitly requests isolation (e.g. worktree/checkout), the user's instruction wins.
 - **Single-Variable Testing (Default)**: Default to one config option at a time. Only combine route priority, component chunking, and size thresholds into a single candidate if the user explicitly requests it; note the confounding when combined.
 - **Statistical Rigor (Default)**: Default to a run count ($N \ge 3$) committed upfront. Report medians and observed minimum-to-maximum ranges—never single point estimates. Test cold loads and warm navigations separately. If the user asks for a quick/scout check, allow $N = 1$–$2$, label it as low-confidence scout, and do not present it as a verdict.
 - **Browser-Centric Evaluation**: Base decisions on user-visible browser metrics (FCP, LCP, click-to-render timing, transferred bytes), not bundle visualization or chunk counts alone.
@@ -33,7 +33,7 @@ Tune Turbopack chunking through controlled, reproducible browser experiments.
 
 Before altering files or starting builds:
 
-1. **Select the target app and stop until it is fixed.** Detect a monorepo first (read-only): check for `pnpm-workspace.yaml`, `turbo.json`, an `apps/` directory, or multiple `package.json` files with Next.js dependencies / multiple `app/` directories. Only skip the ask when the user's string exactly matches one app's relative directory (e.g. `apps/dashboard`) or its `package.json` name (e.g. `@solarx/dashboard`). A repo or org name (e.g. `solarx-form`), a substring, or a generic term does not count as a match. When multiple Next.js apps are found, stop: present the candidates with path, package name, Next.js version, router verification, site-type hint from [site-types.md](./references/site-types.md), and production build/serve command, then ask which app to run on and wait for the answer. Do not proceed past this gate on a guess. If exactly one Next.js app is found, proceed with it and state the assumption. Record the target plus the considered and rejected apps in [experiment-rig.md](./references/experiment-rig.md).
+1. **Select the target app from the request and context.** Detect a monorepo first (read-only): check for `pnpm-workspace.yaml`, `turbo.json`, an `apps/` directory, or multiple `package.json` files with Next.js dependencies / multiple `app/` directories. Use the user's description, prior conversation, current directory, and app purpose to identify the target; an exact directory or package-name match is not required. If context identifies one clear target, or exactly one Next.js app is found, proceed and state the selection and its basis. If multiple plausible targets remain, present their paths, package names, Next.js versions, router verification, site-type hints from [site-types.md](./references/site-types.md), and production build/serve commands. Ask which app to use and wait before app-specific changes or builds; continue independent read-only work while waiting. Record the target, selection basis, and considered and rejected apps in [experiment-rig.md](./references/experiment-rig.md).
 2. Snapshot the target app's existing `experimental.turbopackChunking` block (or its absence) and treat it as the control. A pre-existing value means the baseline is already modified.
 3. Check the target app's `package.json` and lockfiles for Next.js > 16.3.0.
 4. Confirm the target app uses the App Router (its own `app/` directory, not the repo root).
@@ -76,8 +76,6 @@ Temporary test deltas are reversible and do not need pre-approval. Proceed auton
 | :--- | :--- | :--- | :--- | :---: | :--- |
 | Candidate 1 | `experimental.turbopackChunking: { ... }` | Explain hypothesis | Primary flow | $N$ | Guardrail routes |
 
-*Only the final persistent apply (Step 5) requires explicit user approval, requested after a concrete, reviewable result is prepared.*
-
 #### Dashboard Navigation Measurement Protocol
 When testing authenticated warm navigations:
 1. **Pre-flight**: Serve candidate build; navigate to source screen in authenticated state.
@@ -89,13 +87,11 @@ When testing authenticated warm navigations:
 1. **Restore Control**: Immediately revert the target app's `next.config.*` to the recorded control state from §0 step 2, including any pre-existing `turbopackChunking` values.
 2. **Compile Results**: Present a consolidated results table using the template from [experiment-rig.md](./references/experiment-rig.md). Use the full table for final reports; use the scout variant for quick $N = 1$–$2$ checks.
 3. **Analyze Tradeoffs**: Detail changes in request waterfall, cache hit rates, and guardrail metrics.
-4. **Recommendation**: Recommend the most effective candidate, reminding the user that Turbopack chunking options remain experimental. Do not persist the winner without separate, explicit user request — user approval is the final step after this reviewable result.
+4. **Recommendation**: Recommend the most effective candidate, reminding the user that Turbopack chunking options remain experimental. Include the exact configuration delta and proceed to Step 5 when applying it is within the authorized scope.
 
-### 5. Apply & Verify (Explicit Request Only)
+### 5. Apply & Verify
 
-Bias toward completing all authorized reversible work before asking for approval. Request approval only for this persistent step, after Steps 1–4 are done and reviewable.
-
-Upon separate, explicit authorization from the user:
+When applying the winner is authorized under Instruction Precedence & Transparency:
 1. Apply the validated configuration delta to the target app's `next.config.*`.
 2. Run the production build and verify type checking and linting scoped to the target app.
 3. Perform a final smoke test on primary and guardrail routes.
@@ -104,7 +100,11 @@ Run tests appropriate to the change. Skip full type checking, linting, and smoke
 
 ### 6. Parallelization via Subagents
 
-If at any point you can parallelize work by delegating tasks to another agent (route mapping, baseline runs, guardrail journeys, candidate builds), do so using collaboration tools if it could save time or improve quality. Messages that you send to other agents and your final answer may be read by a human, so ensure they are legible. Always put proper spaces between words and/or numbers.
+When collaboration tools are available, delegate independent read-only work such as route mapping, installed-schema inspection, or results analysis if it could save time or improve quality.
+
+Assign one agent to own configuration changes, production builds, serving, browser measurements, and control restoration. Run this experiment sequence one candidate at a time, including baseline and guardrail measurements. Do not run other builds or measurements on the same machine during a measured journey, even with separate checkouts or ports.
+
+Messages that you send to other agents and your final answer may be read by a human, so ensure they are legible. Always put proper spaces between words and/or numbers.
 
 ### 7. Reporting Style
 
