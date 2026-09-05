@@ -1,6 +1,6 @@
 # Experiment Rig & Log Template
 
-Use this template to record baseline conditions and candidate outcomes.
+Use this template to record baseline conditions and candidate outcomes after the minimum-version check in [SKILL.md](../SKILL.md) passes. For Next.js below 16.3.0, stop with the short blocker message instead of preparing this report.
 
 ## 1. Rig Checklist
 
@@ -10,7 +10,8 @@ Use this template to record baseline conditions and candidate outcomes.
 | **Considered / Rejected Apps** | Every Next.js candidate found plus non-Next packages checked, each with path, Next.js version or exclusion reason (e.g. blume docs, worker), and why it was not selected |
 | **Control Config Snapshot** | Pre-existing `experimental.turbopackChunking` block in the target app (or its absence); this is the restore target |
 | **Working Directory** | Exact `cwd` or `pnpm --filter <pkg>` used for build/serve/test commands |
-| **Next.js Version** | Extracted from the target app's `package.json` / lockfile (expected >16.3.0; if not met, follow the Eligibility fallback in `SKILL.md`) |
+| **Next.js Version** | Declared, locked, and installed versions; 16.3.0 or later, including exactly 16.3.0; record the installed option signatures |
+| **Build Source** | Current revision and existing uncommitted changes used for the fresh control build; old reports from different source are hypothesis inputs only |
 | **Bundler Command** | Exact production build command for the target app (target: Turbopack; if Webpack/Rspack, follow the Eligibility fallback in `SKILL.md`) |
 | **Serve Command** | Exact production serve command for the target app (use its declared script; e.g. `next start` vs `opennextjs-cloudflare preview`) |
 | **Router** | App Router verified (target app's `app/` directory present) |
@@ -37,7 +38,7 @@ Keep setup attempts outside the declared sample count. If selectors, markers, ca
 
 ## 3. Decision Summary
 
-Show this compact comparison in the response. Include control and every tested variant. Use the actual primary metric and the cold-load guardrail most relevant to the decision. Show medians and observed min–max ranges; include absolute or percentage changes where useful.
+Show this compact comparison in the response. Include control, every attempted variant, and planned variants that failed or were skipped. Use the actual primary metric and the cold-load guardrail most relevant to the decision. Show medians and observed min–max ranges; include absolute or percentage changes where useful. A route-size inventory does not replace this experiment comparison.
 
 ```markdown
 <Recommendation and the main reason.>
@@ -45,17 +46,19 @@ Show this compact comparison in the response. Include control and every tested v
 N = <valid runs> per variant and journey. <Viewport and network conditions.>
 Timing and byte values are medians [min–max].
 
-| Variant | Primary timing | Cold JS transfer | Guardrails | Valid / Attempted |
-| :--- | :--- | :--- | :--- | :---: |
-| Control | <value [range]> | <value [range]> | Baseline | <n / n> |
-| Variant 1: <change> | <value [range]; delta> | <value [range]; delta> | <pass / regression / inconclusive> | <n / n> |
+| Variant | Primary timing | Cold JS transfer | Guardrails | Valid / Attempted | Status / reason |
+| :--- | :--- | :--- | :--- | :---: | :--- |
+| Control | <value [range]> | <value [range]> | Baseline | <n / n> | Measured |
+| Variant 1: <change> | <value [range]; delta> | <value [range]; delta> | <pass / regression / inconclusive> | <n / n> | <result> |
 
 Current state: control restored; no candidate retained.
 <Exact proposed configuration diff, if recommending a change.>
 [Full measurements and reproduction details](<report path>)
 ```
 
-Follow Step 4 of [SKILL.md](../SKILL.md) for the final approval request. Keeping control is a valid outcome. Do not describe an unchanged pre-existing option as a newly implemented or independently proven improvement.
+For a failed or skipped variant, enter `—` for missing metrics, the actual browser-attempt counts, and the reason in the status column. A failed build has zero browser attempts. Do not fill in estimates or imply it was measured.
+
+Follow Step 4 of [SKILL.md](../SKILL.md) for the final approval request. Keeping control after the comparison is a valid outcome. Do not describe an unchanged pre-existing option as a newly implemented or independently proven improvement. If no comparison ran, label it incomplete or explicitly analysis-only and state why.
 
 ## 4. Detailed Results Log
 

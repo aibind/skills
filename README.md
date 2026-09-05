@@ -20,12 +20,12 @@ npx skills add aibind/skills
 
 ### Next.js Chunking Optimizer
 
-Tests production builds in a browser and compares variants. It restores the original configuration, presents the results, and asks for approval before applying a variant.
+Checks the Next.js version first and stops below 16.3.0 with a short explanation. For supported apps, it builds the current app, tests temporary chunking variants in a browser, and presents every experiment in a comparison table. It restores the original configuration and asks for approval before keeping a variant. Analysis-only requests also require a supported version.
 
 Requirements:
 
-- Next.js > 16.3.0 with App Router and Turbopack production builds.
-- A working production build and a command to serve it locally.
+- Next.js 16.3.0 or later with App Router and supported Turbopack chunking options.
+- Commands to build the current app for production and serve it locally.
 - A browser tool for measurements. `agent-browser` is recommended; other browser tools can be used.
 
 ## Updates
