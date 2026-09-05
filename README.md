@@ -20,7 +20,7 @@ npx skills add aibind/skills
 
 ### Next.js Chunking Optimizer
 
-Tests production builds in a browser, compares results, and applies measured improvements when requested.
+Tests production builds in a browser and compares variants. It restores the original configuration, presents the results, and asks for approval before applying a variant.
 
 Requirements:
 
