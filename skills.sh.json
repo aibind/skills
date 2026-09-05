@@ -1,0 +1,13 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Next.js Performance",
+      "description": "Skills for measuring, tuning Turbopack chunking, and optimizing Next.js App Router applications.",
+      "skills": [
+        "next-chunking-optimizer"
+      ]
+    }
+  ]
+}
