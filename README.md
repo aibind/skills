@@ -14,16 +14,13 @@ npx skills add aibind/skills
 
 ## Available skills
 
-| Skill | Purpose | Status |
-| --- | --- | --- |
-| [Next.js Chunking Optimizer](./next-chunking-optimizer/SKILL.md) | Measure and tune JavaScript loading and page navigation in Next.js | 🚧 WIP |
+| Skill | Purpose |
+| --- | --- |
+| [Next.js Chunking Optimizer](./next-chunking-optimizer/SKILL.md) | Measure and tune JavaScript loading and page navigation in Next.js |
 
 ### Next.js Chunking Optimizer
 
 Tests production builds in a browser, compares results, and applies measured improvements when requested.
-
-> [!WARNING]
-> This skill is a work in progress (WIP). [Update it regularly](#updates) for the latest fixes and guidance.
 
 Requirements:
 
@@ -33,7 +30,7 @@ Requirements:
 
 ## Updates
 
-Update all installed skills to their latest versions:
+Update all installed skills regularly for the latest fixes and guidance:
 
 ```sh
 npx skills update
