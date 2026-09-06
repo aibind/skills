@@ -11,6 +11,14 @@ description: >
 
 Compare Turbopack chunking variants through reproducible browser experiments. Present the results before asking the user to approve a configuration change.
 
+## Opening Notice & File-Change Check
+
+Immediately after loading this skill, before inspecting the app or running commands, explain in the user's language that the experiments require temporary changes to the app's `next.config.*` file. State that the starting configuration will be restored after testing and keeping a change requires approval. Put this in the first user-facing message, not just the later candidate plan.
+
+Check the user's existing instructions at this point. If they prohibit file changes (including a read-only restriction or a prohibition on editing `next.config.*`), stop the skill immediately. Explain that the test runs cannot proceed because comparing chunking settings requires changing that file. Quote the user's restriction and identify this skill's requirement as described under Instruction Precedence & Transparency. Do not inspect the app, run a baseline, create a report, switch to analysis-only mode, or work around the restriction in another checkout. A request to run this skill does not override an accompanying prohibition on file changes.
+
+When no such restriction applies, give the notice and proceed without an extra approval question. A prohibition only on retaining changes does not prohibit temporary experiments.
+
 ## Instruction Precedence & Transparency
 
 - The user's instructions take precedence over guidelines provided in this skill. If explicit user instructions conflict with this skill's instructions, prioritize the user's instructions.
@@ -23,7 +31,7 @@ Compare Turbopack chunking variants through reproducible browser experiments. Pr
 
 After the minimum-version check passes, the default is to **run the experiments**: inspect the app, build the current control, measure it, test supported configuration variants, restore control, and present the comparison for approval. The read-only setup steps are preparation for this workflow.
 
-- Use analysis-only mode when the user explicitly limits the task to inspection or planning, or forbids the temporary changes or execution needed for experiments. Quote that limiting instruction when explaining why experiments were not run. Requiring permission before retaining a variant does not impose analysis-only mode.
+- Use analysis-only mode only when the user explicitly requests inspection or planning and the opening file-change check does not require stopping. Never use it as a fallback for prohibited file changes. Quote the limiting instruction when explaining why experiments were not run. Requiring permission before retaining a variant does not impose analysis-only mode.
 - A normal completed run includes a fresh production baseline, at least one meaningfully different supported configuration variant, browser measurements for the declared journeys, and a final comparison table. Static bundle statistics, an import audit, and proposed future tests are preparatory findings.
 - If execution is blocked, report the concrete failed command or missing prerequisite, what was attempted, and the smallest input needed to continue. Label the experiment incomplete. An absent or stale build means a new baseline build is needed; it is not itself a blocker.
 

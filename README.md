@@ -22,7 +22,7 @@ Before you start, you need:
 - Commands to build your app for production and serve it locally
 - A browser tool for measurements, preferably `agent-browser`
 
-The skill checks your Next.js version first. Below 16.3.0, it stops before analysis or experiments, including when you request analysis only.
+The skill starts by explaining that experiments require temporary changes to `next.config.*`. If your instructions prohibit file changes, it stops and explains why the test runs cannot proceed. Otherwise, it checks your Next.js version. Below 16.3.0, it stops before analysis or experiments, including when you request analysis only.
 
 In your app’s project, send this prompt to your coding agent:
 
