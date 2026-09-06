@@ -1,39 +1,39 @@
-# Agent Skills
+# Install skills for your coding agent
+
+Skills give your coding agent reusable instructions for development tasks. This collection starts with measuring and tuning JavaScript loading in Next.js apps.
 
 [![skills.sh](https://skills.sh/b/aibind/skills)](https://skills.sh/aibind/skills)
 
-Reusable skills for coding agents, starting with Next.js performance optimization.
+## Install from this collection
 
-## Quick start
-
-Install from this collection:
+Use the [skills command-line tool](https://www.skills.sh/docs/cli) to install skills from this repository:
 
 ```sh
 npx skills add aibind/skills
 ```
 
-## Available skills
+## Measure Next.js loading and navigation
 
-| Skill | Purpose |
-| --- | --- |
-| [Next.js Chunking Optimizer](./next-chunking-optimizer/SKILL.md) | Measure and tune JavaScript loading and page navigation in Next.js |
+Use [next-chunking-optimizer](./next-chunking-optimizer/SKILL.md) to test how splitting JavaScript into files affects page loading and navigation.
 
-### Next.js Chunking Optimizer
+Before you start, you need:
 
-Checks the Next.js version first and stops below 16.3.0 with a short explanation. For supported apps, it builds the current app, tests temporary chunking variants in a browser, and presents every experiment in a comparison table. It restores the original configuration and asks for approval before keeping a variant. Analysis-only requests also require a supported version.
+- Next.js 16.3.0 or later with App Router and Turbopack production builds that support the chunking options you want to test
+- Commands to build your app for production and serve it locally
+- A browser tool for measurements, preferably `agent-browser`
 
-Requirements:
+The skill checks your Next.js version first. Below 16.3.0, it stops before analysis or experiments, including when you request analysis only.
 
-- Next.js 16.3.0 or later with App Router and supported Turbopack chunking options.
-- Commands to build the current app for production and serve it locally.
-- A browser tool for measurements. `agent-browser` is recommended; other browser tools can be used.
+Your agent compares the current configuration with temporary chunking settings using production builds and browser measurements. It restores your starting configuration and presents every experiment in a comparison table.
 
-## Updates
+Review the results and exact configuration change before approving a setting to keep. If the measurements show no clear benefit, the agent recommends keeping your current configuration.
 
-Update all installed skills regularly for the latest fixes and guidance:
+## Update installed skills
+
+Fetch the latest versions of all your installed skills:
 
 ```sh
 npx skills update
 ```
 
-See the [skills.sh update documentation](https://www.skills.sh/docs/packs#update-a-pack) for details, including how to update a single skill.
+See the [skills update documentation](https://www.skills.sh/docs/packs#update-a-pack) to update a single skill.

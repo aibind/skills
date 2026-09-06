@@ -1,11 +1,10 @@
 ---
 name: next-chunking-optimizer
 description: >
-  Optimize production JavaScript chunking, initial route load, and repeated
-  client navigation in Next.js 16.3.0 or later in App Router
-  repositories building with Turbopack. Use when asked to tune experimental
-  Turbopack chunking, reduce critical JavaScript, or compare chunking behavior.
-  Present measured variants for approval before retaining a change.
+  Optimize JavaScript loading and page navigation in Next.js apps.
+  Use when asked to reduce initial JavaScript downloads or compare experimental Turbopack chunking settings.
+  Requires Next.js 16.3.0 or later with App Router and Turbopack production builds.
+  Test temporary settings, restore the starting configuration, and present browser measurements for approval before keeping a change.
 ---
 
 # Next.js Chunking Optimizer
