@@ -3,8 +3,8 @@
   "notGrouped": "bottom",
   "groupings": [
     {
-      "title": "Next.js Performance",
-      "description": "Skills for measuring, tuning Turbopack chunking, and optimizing Next.js App Router applications.",
+      "title": "Next.js performance",
+      "description": "Measure and tune JavaScript loading and page navigation in Next.js apps.",
       "skills": [
         "next-chunking-optimizer"
       ]
