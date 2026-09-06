@@ -24,6 +24,12 @@ Before you start, you need:
 
 The skill checks your Next.js version first. Below 16.3.0, it stops before analysis or experiments, including when you request analysis only.
 
+In your app’s project, send this prompt to your coding agent:
+
+```text
+Run `next-chunking-optimizer` on this app.
+```
+
 Your agent compares the current configuration with temporary chunking settings using production builds and browser measurements. It restores your starting configuration and presents every experiment in a comparison table.
 
 Review the results and exact configuration change before approving a setting to keep. If the measurements show no clear benefit, the agent recommends keeping your current configuration.
