@@ -18,7 +18,7 @@ Use this template to record baseline conditions and candidate outcomes after the
 | **Serving Endpoint** | Fresh port / isolated host (avoid stale cache / running processes) |
 | **Driver** | Browser and tool versions; `agent-browser` if installed (see `agent-browser --help` and `agent-browser skills get core`), else available harness; user's preference wins |
 | **Target Journeys** | Primary route (e.g. `/dashboard`), warm transition (e.g. `/dashboard` → `/settings`), guardrails (e.g. `/`) |
-| **Environment** | Auth state, viewport (desktop/mobile), network profile (e.g. unthrottled / fast 4G) |
+| **Environment** | Existing test environment and data source, login method and auth state (no secrets), viewport (desktop/mobile), network profile (e.g. unthrottled / fast 4G); follow the Existing Test Environment rule in `SKILL.md` if prerequisites are missing |
 | **Sample Size** | Planned valid runs per candidate (default $N \ge 3$; $N = 1$–$2$ allowed only for user-requested scout checks) |
 | **Measurement Method** | Readiness markers, paint collection window, cache reset, browser warm-up if any, and separate prefetch/post-click windows; keep these fixed across variants |
 | **Evidence** | Paths to the report, exact candidate deltas, raw samples, and excluded setup attempts with reasons |
