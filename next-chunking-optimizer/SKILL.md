@@ -55,10 +55,10 @@ Perform these initial checks read-only, then continue to the production baseline
 
 1. **Select the target app using the request, context, and package/workspace metadata.** Check manifests and workspace declarations for Next.js apps. If one clear target is identified, proceed and state the selection briefly. If multiple plausible targets remain, show their paths, package names, and Next.js versions and ask which app to use. Keep this discovery limited to target and version identification; defer route, import, and bundle inspection until the version check passes.
 2. **Check the minimum version before further analysis.** Resolve the version from the target's installed Next.js package, or its lockfile if dependencies are absent; a manifest range alone is not an exact version. Compare semantic versions against 16.3.0, including prerelease ordering. If below 16.3.0, stop immediately with the short blocker message below. Do not inspect the schema, fill out an experiment report, or run any later step. If the exact version cannot be established, request that missing information before proceeding.
-3. Once the version passes, snapshot the target app's configuration and working diff, including its existing `experimental.turbopackChunking` block (or its absence). Treat that state as the control, not as the framework default. Record the target, selection basis, and considered alternatives in [experiment-rig.md](./references/experiment-rig.md).
+3. Once the version passes, snapshot the target app's configuration and working diff, including existing chunking controls at their installed option paths (or their absence). Treat that state as the control, not as the framework default. Record the target, selection basis, and considered alternatives in [experiment-rig.md](./references/experiment-rig.md).
 4. Confirm the target app uses the App Router (its own `app/` directory, not the repo root).
 5. Inspect the target app's production build and serve scripts (`cwd` is the target app directory, or `pnpm --filter <pkg>` from the root). Do not assume `next start`; use the script the target app declares (e.g. `opennextjs-cloudflare preview`). Confirm the task runner actually selects that app; some runners resolve to root tasks even from an app directory. Note when `turbopack.root` points above the app at the monorepo root.
-6. Read the installed schema using [chunking-controls.md](./references/chunking-controls.md) before forming candidates. A missing or retyped option affects that candidate, not all other supported options.
+6. Read the installed types, runtime constraints, and option paths using [chunking-controls.md](./references/chunking-controls.md) before forming candidates. Passing the minimum version does not guarantee a particular configuration shape. A missing, moved, or retyped option affects that candidate, not all other supported options.
 
 For a version below the minimum, use this message in the user's language, with the detected version and the exact skill path. Do not add an audit, offer to bypass the blocker, or upgrade dependencies automatically:
 
@@ -100,7 +100,7 @@ State the planned candidates briefly, then execute them in the same run. For eac
 
 | Candidate | Exact Config Delta | Hypothesis | Target Journey | Planned Runs | Guardrails |
 | :--- | :--- | :--- | :--- | :---: | :--- |
-| Candidate 1 | `experimental.turbopackChunking: { ... }` | Explain hypothesis | Primary flow | $N$ | Guardrail routes |
+| Candidate 1 | Exact delta at the verified installed option path | Explain hypothesis | Primary flow | $N$ | Guardrail routes |
 
 #### Dashboard Navigation Measurement Protocol
 When testing authenticated warm navigations:

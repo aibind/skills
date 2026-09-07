@@ -8,9 +8,9 @@ Use this template to record baseline conditions and candidate outcomes after the
 | :--- | :--- |
 | **Target App** | Selected app directory and package name, with the request, context, or single-app assumption supporting the choice; ask only when multiple plausible targets remain |
 | **Considered / Rejected Apps** | Every Next.js candidate found plus non-Next packages checked, each with path, Next.js version or exclusion reason (e.g. blume docs, worker), and why it was not selected |
-| **Control Config Snapshot** | Pre-existing `experimental.turbopackChunking` block in the target app (or its absence); this is the restore target |
+| **Control Config Snapshot** | Pre-existing chunking controls at their installed option paths (or their absence); this is the restore target |
 | **Working Directory** | Exact `cwd` or `pnpm --filter <pkg>` used for build/serve/test commands |
-| **Next.js Version** | Declared, locked, and installed versions; 16.3.0 or later, including exactly 16.3.0; record the installed option signatures |
+| **Next.js Version** | Declared, locked, and installed versions; 16.3.0 or later, including exactly 16.3.0; record installed option paths, signatures, runtime limits, defaults, and source paths |
 | **Build Source** | Current revision and existing uncommitted changes used for the fresh control build; old reports from different source are hypothesis inputs only |
 | **Bundler Command** | Exact production build command for the target app (target: Turbopack; if Webpack/Rspack, follow the Eligibility fallback in `SKILL.md`) |
 | **Serve Command** | Exact production serve command for the target app (use its declared script; e.g. `next start` vs `opennextjs-cloudflare preview`) |
